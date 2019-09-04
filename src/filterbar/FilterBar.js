@@ -1,0 +1,134 @@
+import React, { Component } from "react";
+
+class FilterBar extends Component {
+    constructor(props) {
+        super(props);
+        this.dialog = React.createRef();
+		this.nameInput = React.createRef();
+		this.dateInput = React.createRef();
+		this.timeInput = React.createRef();
+		this.locationInput = React.createRef();
+		this.imgInput = React.createRef();
+		this.altInput = React.createRef();
+        this.descriptionInput = React.createRef();
+        this.hostInput = React.createRef();
+        this.categoryInput = React.createRef();
+        this.searchInput = React.createRef();
+    }
+
+    componentDidMount() {
+        this.searchInput.current.addEventListener('input', event => {
+            const value = event.target.value;
+
+            this.props.filter(value);
+        });
+    }
+
+    openDialog() {
+        this.dialog.current.open();
+    }
+
+    createEvent() {
+		const newEntry = {
+            name: this.nameInput.current.value,
+            date: this.dateInput.current.value,
+			time: this.timeInput.current.value,
+			location: this.locationInput.current.value,
+			img: this.imgInput.current.value,
+			alt: this.altInput.current.value,
+            description: this.descriptionInput.current.value,
+            host: this.hostInput.current.value,
+            category: [].filter.call(this.categoryInput.current.children, el => el.selected)[0].textContent
+		}
+
+		this.props.createEvent(newEntry);
+		this.dialog.current.close();
+	}
+
+    closeDialog() {
+        this.dialog.current.close();
+    }
+
+    render() {
+        return (
+            <div className="events-page-filter-bar">
+                <ui5-title level="H3">Events</ui5-title>
+
+                <div className="events-page-filter-bar-actions">
+                    <ui5-input class="events-page-searchfield" placeholder="Suche" ref={this.searchInput}>
+                        <ui5-icon slot="icon" src="sap-icon://search"></ui5-icon>
+                    </ui5-input>
+
+                    <ui5-button onClick={this.openDialog.bind(this)} design="Transparent" title="Event erstellen">Erstellen</ui5-button>
+                    <ui5-button class="events-page-filter-bar-overflow" onClick={this.props.sortDesc.bind(this)} icon="sap-icon://sort-descending" design="Transparent" title="Nach Datum sortieren"></ui5-button>
+                    <ui5-button class="events-page-filter-bar-overflow" onClick={this.props.sortAsc.bind(this)} icon="sap-icon://sort-ascending" design="Transparent" title="Nach Datum sortieren"></ui5-button>
+                </div>
+
+                <ui5-dialog header-text="Neues Event erstellen" ref={this.dialog}>
+                    <div className="dialog-content">
+
+                        <div className="dialog-section">
+                            <ui5-label>Eventname:</ui5-label>
+                            <ui5-input ref={this.nameInput}></ui5-input>
+                        </div>
+
+                        <div className="dialog-section">
+                            <ui5-label>Datum:</ui5-label>
+                            <ui5-datepicker ref={this.dateInput}></ui5-datepicker>
+                        </div>
+
+                        <div className="dialog-section">
+                            <ui5-label>Uhrzeit:</ui5-label>
+                            <ui5-input ref={this.timeInput}></ui5-input>
+                        </div>
+
+                        <div className="dialog-section">
+                            <ui5-label>Ort:</ui5-label>
+                            <ui5-textarea ref={this.locationInput} show-exceeded-text max-length="100"></ui5-textarea>
+                        </div>
+
+                        <div className="dialog-section">
+                            <ui5-label>Beschreibung:</ui5-label>
+                            <ui5-textarea ref={this.descriptionInput} show-exceeded-text max-length="100"></ui5-textarea>
+                        </div>
+
+                        <div className="dialog-section">
+                            <ui5-label>Kategorie:</ui5-label>
+
+                            <ui5-select ref={this.categoryInput}>
+                                <ui5-option>Party</ui5-option>
+                                <ui5-option>Familie</ui5-option>
+                                <ui5-option>Markt</ui5-option>
+                                <ui5-option>Sonstiges</ui5-option>
+                            </ui5-select>
+                        </div>
+
+                        <div className="dialog-section">
+                            <ui5-label>Bild URL:</ui5-label>
+                            <ui5-input ref={this.imgInput} type="URL" placeholder="https://..."></ui5-input>
+                        </div>
+
+                        <div className="dialog-section">
+                            <ui5-label>Bildbeschreibung:</ui5-label>
+                            <ui5-textarea ref={this.altInput} show-exceeded-text max-length="100"></ui5-textarea>
+                        </div>
+
+                        <div className="dialog-section">
+                            <ui5-label>Veranstalter:</ui5-label>
+                            <ui5-input ref={this.hostInput}></ui5-input>
+                        </div>
+                        
+                    </div>
+
+                    <div slot="footer" className="dialog-footer">
+                        <ui5-button design="Emphasized" onClick={this.createEvent.bind(this)}>OK</ui5-button>
+                        <ui5-button onClick={this.closeDialog.bind(this)}>Abbrechen</ui5-button>
+                    </div>
+                </ui5-dialog>
+
+            </div>
+        )
+    }
+}
+
+export default FilterBar;
