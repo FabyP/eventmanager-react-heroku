@@ -183,19 +183,19 @@ class Overview extends Component {
 
 					<div aria-label="events-table" role="region">
 						<ui5-table aria-label="events-table" role="table">
-							<ui5-table-column role="columnheader" slot="columns">
+							<ui5-table-column slot="columns">
 								<ui5-label class="table-column-header-content">Event</ui5-label>
 							</ui5-table-column>
-							<ui5-table-column role="columnheader" slot="columns" min-width="900" popin-text="Datum" demand-popin>
+							<ui5-table-column slot="columns" min-width="900" popin-text="Datum" demand-popin>
 								<ui5-label class="table-column-header-content">Datum</ui5-label>
 							</ui5-table-column>
-							<ui5-table-column role="columnheader" slot="columns" min-width="900" demand-popin>
+							<ui5-table-column slot="columns" min-width="900" demand-popin>
 								<ui5-label class="table-column-header-content">Uhrzeit</ui5-label>
 							</ui5-table-column>
-							<ui5-table-column role="columnheader" slot="columns" min-width="600" popin-text="Ort" demand-popin>
+							<ui5-table-column slot="columns" min-width="600" popin-text="Ort" demand-popin>
 								<ui5-label class="table-column-header-content">Ort</ui5-label>
 							</ui5-table-column>
-							<ui5-table-column role="columnheader" slot="columns" width="2rem">
+							<ui5-table-column slot="columns" width="2rem">
 							</ui5-table-column>
 
 							{
