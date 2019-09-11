@@ -2,9 +2,9 @@
   "name": "eventmanager-react",
   "version": "0.1.0",
   "private": true,
-
   "dependencies": {
     "@ui5/webcomponents": "^1.0.0-rc.2",
+    "express": "^4.17.1",
     "path-to-regexp": "^3.0.0",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
