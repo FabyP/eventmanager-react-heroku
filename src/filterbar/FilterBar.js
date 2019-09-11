@@ -56,14 +56,15 @@ class FilterBar extends Component {
 
                 <div className="events-page-filter-bar-actions">
                     <form role="search">
-                        <ui5-input aria-label="Suche" class="events-page-searchfield" placeholder="Suche" ref={this.searchInput}>
+                        <ui5-label class="hidden" for="searchInput">Eingabefeld Suche</ui5-label>
+                        <ui5-input id="searchInput" aria-label="Suche" class="events-page-searchfield" placeholder="Suche" ref={this.searchInput}>
                             <ui5-icon slot="icon" src="sap-icon://search"></ui5-icon>
                         </ui5-input>
                     </form>
 
-                    <ui5-button role ="button" onClick={this.openDialog.bind(this)} design="Transparent" title="Event erstellen">Erstellen</ui5-button>
-                    <ui5-button class="events-page-filter-bar-overflow" onClick={this.props.sortDesc.bind(this)} icon="sap-icon://sort-descending" design="Transparent" title="Absteigend nach Datum sortieren"></ui5-button>
-                    <ui5-button class="events-page-filter-bar-overflow" onClick={this.props.sortAsc.bind(this)} icon="sap-icon://sort-ascending" design="Transparent" title="Aufsteigend nach Datum sortieren" ></ui5-button>
+                    <ui5-button role ="button" onClick={this.openDialog.bind(this)} design="Transparent" title="Event erstellen" aria-label="Event erstellen">Erstellen</ui5-button>
+                    <ui5-button class="events-page-filter-bar-overflow" onClick={this.props.sortDesc.bind(this)} icon="sap-icon://sort-descending" design="Transparent" title="Absteigend nach Datum sortieren" aria-label="Absteigend nach Datum sortieren"></ui5-button>
+                    <ui5-button class="events-page-filter-bar-overflow" onClick={this.props.sortAsc.bind(this)} icon="sap-icon://sort-ascending" design="Transparent" title="Aufsteigend nach Datum sortieren" aria-label="Aufsteigend nach Datum sortieren"></ui5-button>
                 </div>
 
                 <ui5-dialog header-text="Neues Event erstellen" ref={this.dialog}>
