@@ -55,10 +55,12 @@ class FilterBar extends Component {
                 <ui5-title level="H3">Events</ui5-title>
 
                 <div className="events-page-filter-bar-actions">
-                    <ui5-label class="hidden" for="searchInput">Eingabefeld Suche</ui5-label>
+                    <form role="search">
+                    <ui5-label class="hidden" for="searchInput">Suche</ui5-label>
                     <ui5-input id="searchInput" aria-label="Suche" class="events-page-searchfield" placeholder="Suche" ref={this.searchInput}>
-                        <ui5-icon slot="icon" src="sap-icon://search"></ui5-icon>
+                        <ui5-icon id="searchIcon" slot="icon" src="sap-icon://search" aria-hidden="true"></ui5-icon>
                     </ui5-input>
+                    </form>
 
                     <ui5-button role="button" onClick={this.openDialog.bind(this)} design="Transparent" title="Event erstellen" aria-label="Event erstellen">Erstellen</ui5-button>
                     <ui5-button class="events-page-filter-bar-overflow" onClick={this.props.sortDesc.bind(this)} icon="sap-icon://sort-descending" design="Transparent" title="Absteigend nach Datum sortieren" aria-label="Absteigend nach Datum sortieren">
