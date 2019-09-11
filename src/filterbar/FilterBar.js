@@ -62,8 +62,8 @@ class FilterBar extends Component {
                     </form>
 
                     <ui5-button role ="button" onClick={this.openDialog.bind(this)} design="Transparent" title="Event erstellen">Erstellen</ui5-button>
-                    <ui5-button role ="button" class="events-page-filter-bar-overflow" onClick={this.props.sortDesc.bind(this)} icon="sap-icon://sort-descending" design="Transparent" title="Nach Datum sortieren"></ui5-button>
-                    <ui5-button role ="button" class="events-page-filter-bar-overflow" onClick={this.props.sortAsc.bind(this)} icon="sap-icon://sort-ascending" design="Transparent" title="Nach Datum sortieren"></ui5-button>
+                    <ui5-button class="events-page-filter-bar-overflow" onClick={this.props.sortDesc.bind(this)} icon="sap-icon://sort-descending" design="Transparent" title="Absteigend nach Datum sortieren"></ui5-button>
+                    <ui5-button class="events-page-filter-bar-overflow" onClick={this.props.sortAsc.bind(this)} icon="sap-icon://sort-ascending" design="Transparent" title="Aufsteigend nach Datum sortieren" ></ui5-button>
                 </div>
 
                 <ui5-dialog header-text="Neues Event erstellen" ref={this.dialog}>
