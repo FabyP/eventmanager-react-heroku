@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 
-class Header extends Component {
+class HeaderOverview extends Component {
     constructor(props) {
         super(props);
     
-        this.tabContainer = React.createRef(); // creates a referebce for the tab container
+        this.tabContainer = React.createRef(); // creates a reference for the tab container
     }
 
     componentDidMount() {
@@ -17,14 +17,14 @@ class Header extends Component {
 
     render() {
         return (
-            <header className="overview-page-header">
-                <div className="overview-page-header-bar">
+            <section className="overview-page-header" aria-label="Header Veranstaltungen">
+                <div className="overview-page-header-bar" role="region" aria-label="Titel">
 
-                    <ui5-title>Übersicht Veranstaltungen</ui5-title>
+                    <ui5-title level="H2">Übersicht Veranstaltungen</ui5-title>
 
                 </div>
 
-                <ui5-tabcontainer
+                <ui5-tabcontainer role="region" aria-label="Kategorienfilter"
                     ref={this.tabContainer}
                     class="overview-page-header-menu"
                     fixed
@@ -36,9 +36,9 @@ class Header extends Component {
                     <ui5-tab data-filter-type="market" text="Markt" additional-text={this.props.marketCount}></ui5-tab>
                     <ui5-tab data-filter-type="other" text="Sonstige" additional-text={this.props.otherCount}></ui5-tab>
                 </ui5-tabcontainer>
-            </header>
+            </section>
         )
     }
 }
 
-export default Header;
+export default HeaderOverview;

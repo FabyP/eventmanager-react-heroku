@@ -109,3 +109,11 @@
 		justify-content: flex-start;
 	}
 }
+
+.row-title{
+	font-weight: bold;
+}
+
+ui5-table-row:hover{
+	cursor:pointer;
+}

@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import "./Overview.css";
 import events from "../data/events.json";
 
-import Header from "../header/Header";
+import HeaderOverview from "../header/Header";
 import FilterBar from "../filterbar/FilterBar";
 
 //Web Components
@@ -18,9 +18,29 @@ import "@ui5/webcomponents/dist/Popover";
 import "@ui5/webcomponents/dist/Select";
 import "@ui5/webcomponents/dist/DatePicker";
 import "@ui5/webcomponents/dist/TextArea";
+import "@ui5/webcomponents/dist/Label";
 
 
 class Overview extends Component {
+
+	constructor(props) {
+		super(props);
+		this.props = props;
+	}
+
+	componentDidMount() {
+		var props = (this.props);
+		for (var i = 0; i < document.getElementsByTagName("ui5-table-row").length; i++) {
+			document.getElementsByTagName("ui5-table-row")[i].addEventListener('click', function (event) {
+				var id = event.toElement.id;
+				if (!id) {
+					id = event.path[9].id;
+				}
+				props.history.push("/detail/" + id);
+			}, false);
+		}
+	}
+
 	state = {
 		events: [...events],
 		filteredEvents: [...events],
@@ -91,8 +111,7 @@ class Overview extends Component {
 	//Search
 	filterVisibleItemsByText(text) {
 		const filteredByType = this.filterItems(this.state.filterType, this.state.events); // filter items based on current filter type
-		const items = filteredByType.filter(item => item.name.toLowerCase().startsWith(text)); // filter items based on starting text
-	
+		const items = filteredByType.filter(item => item.name.toLowerCase().startsWith(text.toLowerCase())); // filter items based on starting text
 		this.setState({
 			...this.state,
 			filteredEvents: items, // update state of filtered items
@@ -104,14 +123,13 @@ class Overview extends Component {
 
 	//sortAsc
 	sortAsc() {
-		const sortedItems = this.state.filteredEvents.sort((a,b) => {
+		const sortedItems = this.state.filteredEvents.sort((a, b) => {
 			function parseDate(input) {
 				var parts = input.match(/(\d+)/g);
 				// note parts[1]-1
-				return new Date(parts[2], parts[1]-1, parts[0]);
+				return new Date(parts[2], parts[1] - 1, parts[0]);
 			}
 			let dateA = parseDate(a.date), dateB = parseDate(b.date);
-			console.log(dateA);
 			return dateA - dateB;
 		});
 
@@ -121,18 +139,17 @@ class Overview extends Component {
 		});
 	}
 
-	
+
 
 	//sortDesc
 	sortDesc() {
-		const sortedItems = this.state.filteredEvents.sort((a,b) => {
+		const sortedItems = this.state.filteredEvents.sort((a, b) => {
 			function parseDate(input) {
 				var parts = input.match(/(\d+)/g);
 				// note parts[1]-1
-				return new Date(parts[2], parts[1]-1, parts[0]);
+				return new Date(parts[2], parts[1] - 1, parts[0]);
 			}
 			let dateA = parseDate(a.date), dateB = parseDate(b.date);
-			console.log(dateA);
 			return dateB - dateA;
 		});
 
@@ -146,7 +163,7 @@ class Overview extends Component {
 		return (
 			<div className="overview-page">
 
-				<Header
+				<HeaderOverview
 					events={this.state.events}
 					partyCount={this.filterPartyEvents(this.state.events).length}
 					familyCount={this.filterFamilyEvents(this.state.events).length}
@@ -155,7 +172,7 @@ class Overview extends Component {
 					tabPress={this.applyFilter.bind(this)} // Event listener when a tab is pressed
 				/>
 
-				<main className="overview-page-content">
+				<section className="overview-page-content" aria-label="Content">
 
 					<FilterBar
 						createEvent={this.createEvent.bind(this)}
@@ -164,39 +181,48 @@ class Overview extends Component {
 						sortDesc={this.sortDesc.bind(this)}
 					/>
 
-					<ui5-table>
-						<ui5-table-column slot="columns">
-							<ui5-label class="table-column-header-content">Event</ui5-label>
-						</ui5-table-column>
-						<ui5-table-column slot="columns" min-width="900" popin-text="Datum" demand-popin>
-							<ui5-label class="table-column-header-content">Datum</ui5-label>
-						</ui5-table-column>
-						<ui5-table-column slot="columns" min-width="900" demand-popin>
-							<ui5-label class="table-column-header-content">Uhrzeit</ui5-label>
-						</ui5-table-column>
-						<ui5-table-column slot="columns" min-width="600" popin-text="Ort" demand-popin>
-							<ui5-label class="table-column-header-content">Ort</ui5-label>
-						</ui5-table-column>
+					<div aria-label="events-table" role="region">
+						<ui5-table aria-label="events-table" role="table">
+							<ui5-table-column role="columnheader" slot="columns">
+								<ui5-label class="table-column-header-content">Event</ui5-label>
+							</ui5-table-column>
+							<ui5-table-column role="columnheader" slot="columns" min-width="900" popin-text="Datum" demand-popin>
+								<ui5-label class="table-column-header-content">Datum</ui5-label>
+							</ui5-table-column>
+							<ui5-table-column role="columnheader" slot="columns" min-width="900" demand-popin>
+								<ui5-label class="table-column-header-content">Uhrzeit</ui5-label>
+							</ui5-table-column>
+							<ui5-table-column role="columnheader" slot="columns" min-width="600" popin-text="Ort" demand-popin>
+								<ui5-label class="table-column-header-content">Ort</ui5-label>
+							</ui5-table-column>
+							<ui5-table-column role="columnheader" slot="columns" width="2rem">
+							</ui5-table-column>
 
-						{
-							this.state.filteredEvents.map((item) =>
-								<ui5-table-row key={item.key}>
-									<ui5-table-cell>
-										<ui5-label class="table-cell-content"><b>{item.name}</b></ui5-label>
-									</ui5-table-cell>
-									<ui5-table-cell>
-										<span className="table-cell-content">{item.date}</span>
-									</ui5-table-cell>
-									<ui5-table-cell>
-										<span className="table-cell-content">{item.time}</span>
-									</ui5-table-cell>
-									<ui5-table-cell>
-										<span className="table-cell-content">{item.location}</span>
-									</ui5-table-cell>
-								</ui5-table-row>)
-						}
-					</ui5-table>
-				</main>
+							{
+								this.state.filteredEvents.map((item) =>
+									<ui5-table-row key={item.key} id={item.key} role="row">
+										<ui5-table-cell role="cell">
+											<span className="table-cell-content row-title">{item.name}</span>
+										</ui5-table-cell>
+										<ui5-table-cell role="cell">
+											<span className="table-cell-content">{item.date}</span>
+										</ui5-table-cell>
+										<ui5-table-cell role="cell">
+											<span className="table-cell-content">{item.time}</span>
+										</ui5-table-cell>
+										<ui5-table-cell role="cell">
+											<span className="table-cell-content">{item.location}</span>
+										</ui5-table-cell>
+										<ui5-table-cell role="cell">
+											<span className="table-cell-content">
+												<ui5-icon src="sap-icon://navigation-right-arrow"></ui5-icon>
+											</span>
+										</ui5-table-cell>
+									</ui5-table-row>)
+							}
+						</ui5-table>
+					</div>
+				</section>
 			</div>
 		)
 	}

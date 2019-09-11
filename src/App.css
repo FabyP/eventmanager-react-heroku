@@ -98,3 +98,13 @@ html, body, .root, .App {
 .error {
 	color: var(--sapNegativeColor, #bb0000);
 }
+
+a {
+	text-decoration: none;
+}
+
+@media (max-width: 600px) {
+    .app-content {
+        padding: 0.5rem;
+    }
+}

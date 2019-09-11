@@ -33,16 +33,13 @@ class AppBar extends Component {
 
     render() {
         return (
-            <div className="app-bar">
+            <div className="app-bar" role="banner">
                 <ui5-shellbar
                     ref={this.appBar}
                     primary-title="Stadtverwaltung"
-                    show-notifications
-                    show-product-switch
                     show-co-pilot
                     profile={profile}
                     logo={logo}>
-                    <ui5-icon src="nav-back" slot="icon"></ui5-icon>
                 </ui5-shellbar>
 
                 <ui5-popover

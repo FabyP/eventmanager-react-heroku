@@ -1,7 +1,7 @@
 // Home.js
 import React, { Component } from "react";
 import data from "./data.json";
-import { Link } from 'react-router-dom';
+//import { Link } from 'react-router-dom';
 
 class Home extends Component {
 
@@ -9,25 +9,63 @@ class Home extends Component {
 		super(props);
 
 		this.featuredCardsRefs = [];
+		this.listCardsRefs = [];
 		this._navToOverview = this.navToOverview.bind(this);
+		this._navList = this._navList.bind(this);
 		this.state = { data };
-		this.linkList = React.createRef();
+		//this.linkList = React.createRef();
+		//this.handleListClick = this.handleListClick.bind(this);
 	}
 
 	// Bind for the "headerClick" event of the ui5-card
 	componentDidMount() {
+		const listRef = this.listCardsRefs[0];
 		const eventCardRef = this.featuredCardsRefs[0];
+		//console.log(listRef)
 
-		//this.linkList.current.addEventListener("itemClick", this.onItemClicked);
+		//this.linkList.addEventListener("itemClick", this.handleListClick);
 
 		if (eventCardRef) {
 			eventCardRef.addEventListener("headerClick", this._navToOverview);
 		}
+		if (listRef) {
+			listRef.addEventListener("itemClick", this._navList);
+		}
 	}
 
-	/*onItemClicked(){
-		this.props.history.push("/other");
+	/*handleListClick(event){
+		console.log(event)
+			var clickedItems = event.detail.clickedItems;
+	
+			alert("The selected item:  " + clickedItems[0].textContent);
+		
 	}*/
+
+	/*onItemClicked() {
+		//this.props.history.push("/home");
+	}*/
+
+	_navList(event) {
+		//console.log(event.detail.item.id);
+		//console.log(event.detail.item.attributes.dataid.value);
+		let key = event.detail.item.attributes.dataid.value - 1;
+		//console.log(key);
+		//console.log(data.quicklinks[0].items[key].link);
+		let link = data.quicklinks[0].items[key].link;
+		if (key <= 1) {
+			this.props.history.push(link);
+		}
+		else {
+			window.open(link, '_blank', 'noopener noreferrer');
+		}
+
+		//console.log(.attributes.id);
+		//console.log(event.target);
+		//this.props.history.push("/overview");
+		//alert('hello');
+		//const selectedIndex = event.target.options.selectedIndex;
+		//console.log(event.detail.item.getAttribute('data-key'));
+	}
 
 	// Change the hash and let the router switch the views
 	navToOverview() {
@@ -40,7 +78,7 @@ class Home extends Component {
 		return (
 			<div className="app-content">
 				{/* Featured */}
-				<ui5-title level="H3">Featured</ui5-title>
+				<ui5-title level="H1">Featured</ui5-title>
 				<section className="section">
 					{data.featured.map((dataObj, index) =>
 						<ui5-card
@@ -67,24 +105,24 @@ class Home extends Component {
 					)}
 					{data.quicklinks.map((dataObj, index) =>
 						<ui5-card
+							ref={ref => this.listCardsRefs[index] = ref}
 							key={dataObj.key}
 							heading={dataObj.heading}
 							status={dataObj.status}
 							class="ui5card">
-							<ui5-list separators="None" ref={this.linkList}>
+							<ui5-list separators="None">
 								{dataObj.items.map(item =>
-									<Link to='https://react.semantic-ui.com/'>
-										<ui5-li
-											key={item.key}
-											icon={item.icon}
-											description={item.title}>
-										</ui5-li>
-									</Link>
+									<ui5-li
+										key={item.key}
+										dataid={item.key}
+										icon={item.icon}
+										description={item.title}
+										role="button">
+									</ui5-li>
 								)}
 							</ui5-list>
 						</ui5-card>
 					)}
-
 				</section>
 			</div>
 		);
